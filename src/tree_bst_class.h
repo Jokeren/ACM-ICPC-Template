@@ -1,8 +1,7 @@
 #define N 1000
-#define MIN 1000010
-#define EPS 1e-8
 
-int arr[N];
+int pre[N];
+int mid[N];
 
 class bst{
 private:
@@ -51,7 +50,7 @@ public:
         }
     }
 
-    /*
+    
     node* build_pre_mid(int s1, int e1, int s2, int e2){
         node* n = create(pre[s1]);
         int index;
@@ -62,16 +61,17 @@ public:
             }
         }
 
-        if(index!=s2){
-            n->left = build(s1+1,s1+(index-s2),s2,index-1);
+        if(index > s2){
+            n->left = build_pre_mid(s1+1,s1+(index-s2),s2,index-1);
         }
-        if(index!=e2){
-            n->right = build(s1+index-s2+1,e1,index+1,e2);
+		
+        if(index < e2){
+            n->right = build_pre_mid(s1+index-s2+1,e1,index+1,e2);
         }
 
         return n;
     }
-    */
+   
 
     void post_order(node* t){
         if(t->left!=NULL){
