@@ -10,3 +10,13 @@ int inline first_bit_one(int num)
 
     return i;
 }
+
+int inline count_one(int num)
+{
+	int cntx = 0;
+	while (num) {
+		if (num & 1) cntx++;
+		num >>= 1;
+	}
+	return cntx;
+}
