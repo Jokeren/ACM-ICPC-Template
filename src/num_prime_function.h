@@ -1,3 +1,6 @@
+/*
+ * complexity nloglogn，以e为底
+ */
 int prime_size;
 bool is_prime[N];
 bool marked[N];
@@ -10,12 +13,12 @@ void init()
     is_prime[0] = false;
     is_prime[1] = false;
 
-    for(int i = 2;i<=N;i++){
+    for(int i = 2; i * i < N;i++){
         if(marked[i] == false){
             marked[i] = true;
             prime[prime_size++] = i;
-			if(i<sqrt(N)){
-				for(int j = i*i;j<N;j+=i){
+			if(i < sqrt(N)){
+				for(int j = i*i; j < N; j+=i){
 					marked[j] = true;
 					is_prime[j] = false;
 				}
