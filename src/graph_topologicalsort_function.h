@@ -8,15 +8,15 @@ int indegree[N];
 void topologic_sort(int m, int n)
 {
     int x,y;
-    for(int i = 0;i<m;i++){
-        scanf("%d%d",&x,&y);
+    for(int i = 0; i < m; i++){
+        scanf("%d%d", &x, &y);
         indegree[y]++;
         g[x].push_back(y);
     }
 
     std::queue<int> cur;
 
-    for(int i = 0;i<n;i++){
+    for(int i = 0; i < n; i++){
         if(indegree[i]==0){
             cur.push(i);
         }

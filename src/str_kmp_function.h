@@ -1,6 +1,6 @@
 /*
  * 应用：单串匹配
- * 复杂度：O(n)，因为K值最多+N次，但是K值不可能小于-1，所以k = next[k]最多操作N次。
+ * 复杂度：O(m + n)，因为K值最多+N次，但是K值不可能小于-1，所以k = next[k]最多操作N次。
  * 核心思想：
  * 1. 建表：找到模式串中，与后缀匹配的最长前缀。
  * k值记录最长前缀位置，i值记录当前字符串位置。
@@ -11,39 +11,28 @@ char search[N];
 char word[M];
 int next[M];
 
+/*
+ * 这里next数组为匹配的下一个位置，例：
+ * aaaaa$
+ * 012345
+ * 最后一位也是有用的
+ */
 void kmp_table()
 {
-	next[0] = -1;
-
+	next[0] = 0;
+    next[1] = 0;
 	int len_word = strlen(word);
-	int k = 0;
-	for (int i = 1; i < len_word; i++) {
-		/*
-		 * step 1:
-		 * cur idx not match, back the prefix section which is the same as the suffix ones.
-		 */
-		while (k > -1 && word[k] != word[i]) {
-			k = next[k];
-		}
 
-		/*
-		 * step 2:
-		 * tag it
-		 */
-		next[i] = k; 
+    for (int i = 1; i < len_word; i++) {
+        int j = next[i];
+        while (j && word[i] != word[j])
+            j = next[j];
 
-		/*
-		 * k = -1 indicates there's no match, next idx should begin by k = 0
-		 */
-		if (k == -1) {
-			k = 0;
-		} else if (word[k] == word[i]) {
-			k++;
-		}
-	}
+        next[i + 1] = word[i] == word[j] ? j + 1: 0;
+    }
 }
 
-int kmp_search()
+bool kmp_search( )//统计次数的时候要改为int
 {
 	int len_search = 0, len_word = 0;
 	int ncount = 0;
@@ -51,30 +40,31 @@ int kmp_search()
 	len_search = strlen(search);
 	len_word = strlen(word);
 
-	for (int k = -1, i = 0; i < len_search; i++) {
+	for (int j = 0, i = 0; i < len_search; i++) {
 		/*
 		 * step 1:
 		 * compare to the one which matches
 		 */
-		while (k > -1 && search[i] != word[k + 1]) k = next[k];	
-		
-		/* 
+		while (j && search[i] != word[j]) j = next[j];
+
+		/*
 		 * step 2:
 		 * if two words match, increase value of k
 		 */
-		if (word[k + 1] == search[i]) {
-			k++;
+		if (word[j] == search[i]) {
+			j++;
 		}
 
 		/*
 		 * step 3:
 		 * find a matched word
 		 */
-		if (len_word - 1 == k) {
-			k = next[k];
+		if (len_word == j) {
+            return true;
+			j = next[j];
 			ncount++;
 		}
 	}
 
-	return ncount;
+	return false;
 }

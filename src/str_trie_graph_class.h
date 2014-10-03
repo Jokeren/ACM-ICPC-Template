@@ -1,25 +1,30 @@
 class TrieGraph
 {
 private:
-	int trie[N][CH];
+	int trie[N][CH]; //N是节点数目，子串数*长度
 	int fail[N];
 	int num[N];
 	int cur_idx;
-	char str_main[N];
+	char str_main[LEN]; //LEN是主串长度
 
 public:
 	TrieGraph() :cur_idx(1) {
-		
+		memset(trie[0], 0, sizeof(trie[0]));
+		memset(fail, 0, sizeof(fail));
+		memset(num, 0, sizeof(num));
+
 	}
 	
 	void init() {
 		memset(trie[0], 0, sizeof(trie[0]));
+		memset(fail, 0, sizeof(fail));
+		memset(num, 0, sizeof(num));
 		cur_idx = 1;
 		num[0] = 0;
 	}
 	
 	void insert(char* s) {
-		int i = 0, p = 0;
+		int i = 0, p = 0;//p表示层数
 		int len = strlen(s);
 
 		for (i = 0; i <= len - 1; i++)
