@@ -32,7 +32,7 @@ void kmp_table()
     }
 }
 
-bool kmp_search( )//统计次数的时候要改为int
+bool kmp_search()//统计次数的时候要改为int
 {
 	int len_search = 0, len_word = 0;
 	int ncount = 0;
