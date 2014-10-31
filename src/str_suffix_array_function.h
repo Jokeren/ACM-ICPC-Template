@@ -32,7 +32,7 @@ static const int GMAX = 0x3f3f3f3f;
 static const int MIN = ~MAX;
 static const double EPS = 1e-7;
 static const int BASE = 10007;
-static const int CH = 200;
+static const int CH = 200;//改字符数
 
 char word[LEN];
 int s[LEN], sa[LEN], t[LEN], t2[LEN], c[LEN];
@@ -91,7 +91,7 @@ void build_sa(int m, int n)
 
 int inline cmp_suffix(char* pattern, int pattern_len, int p)
 {
-	return strncmp(pattern, s + sa[p], pattern_len);
+	return strncmp(pattern, word + sa[p], pattern_len);
 }
 
 int find(char* pattern, int pattern_len, int temp_len)
@@ -141,9 +141,9 @@ void get_height(int n)
 
 void solve(int n)
 {
-	build_sa(CH, n + 1);//n和n + 1搞错了，为什么？
+	build_sa(CH, n + 1);//实际排序有n + 1个元素
 
-	get_height(n);
+	get_height(n);//因为插入的数为0，字典序肯定最小，所以只要考虑rank[1 - n]
 
     int ans = 0;
 	for (int i = 1; i <= n; i++) {

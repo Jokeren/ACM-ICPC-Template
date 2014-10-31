@@ -42,9 +42,10 @@ private:
 	int num[N];
 	int cur_idx;
 	char str_main[LEN]; //LEN是主串长度
+	bool is_build;
 
 public:
-	TrieGraph() :cur_idx(1) {
+	TrieGraph() :cur_idx(1), is_build(false) {
 		memset(trie[0], 0, sizeof(trie[0]));
 		memset(fail, 0, sizeof(fail));
 		memset(num, 0, sizeof(num));
@@ -57,6 +58,7 @@ public:
 		memset(num, 0, sizeof(num));
 		cur_idx = 1;
 		num[0] = 0;
+		is_build = false;
 	}
 
 	void insert(char* s) {
@@ -89,7 +91,7 @@ public:
 		{
 			int p = q.front();
 			q.pop();
-
+			//num[p] |= num[fail[p]];动态规划时的关键
 			//fail说明
 			//可能在父节点的后缀中找到对应字符（父节点后缀本身缺失最后一个字符）。
 			//可能没有找到对应字符。既然在这里找不到后缀了，所以就代表肯定不匹配了，那么可以继续回溯。

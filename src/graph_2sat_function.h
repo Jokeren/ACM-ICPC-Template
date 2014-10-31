@@ -33,5 +33,12 @@ void 2sat()
         }
     }
 
-    printf("YES\n");
+	printf("true\n");
+	for (int i = 1; i <= vertices; i++) {
+		if (cmp[i] > cmp[3 + i]) {
+			printf("true\n");
+		} else {
+			printf("false\n");
+		}
+	}
 }

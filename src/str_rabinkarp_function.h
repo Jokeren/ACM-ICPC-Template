@@ -1,7 +1,9 @@
 bool hash[N];
 char str[N];
 int char_to_num[257];
+const long long B = 100000007;//自然溢出
 
+/*最高位权值最高*/
 void inline rabin_karp(int n, int nc, int len)
 {
     memset(hash,false,sizeof(hash));

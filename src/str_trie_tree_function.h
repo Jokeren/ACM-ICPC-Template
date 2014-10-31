@@ -1,56 +1,49 @@
-struct trie{
-	struct trie *child[27];
-	int ncount;
-	char letter;
-}*root;
+static const int N = 20;
+static const int CH = 28;
 
-char dict[N];
+struct Trie {
+    int ch[N * CH][CH];
+    int value[N * CH];
+    int sz;
+    Trie():sz(1) {
+        memset(ch[0], 0, sizeof(ch[0]));
+        memset(value, 0, sizeof(value));
+    }
 
-void inline trie_build(char *str, int len)
-{
-	struct trie *prev = root;
-	for (int i = 0; i < len; i++) {
-		int tmp = str[i] - 'a';
-		if (prev->child[tmp] == NULL) {
-			prev->child[tmp] = (struct trie *) malloc(sizeof(struct trie));
-			memset(prev->child[tmp], 0, sizeof(struct trie));
-			prev->child[tmp]->letter = str[i];
-		}
-		prev->child[tmp]->ncount++;
-		prev = prev->child[tmp];
-	}
-}
+    void init() {
+        sz = 1;
+        memset(ch[0], 0, sizeof(ch[0]));
+        memset(value, 0, sizeof(value));
+    }
 
-int inline trie_search(char *word, int len)
-{
-	struct trie *prev = root;
-	for (int i = 0; i < len; i++) {
-		int tmp = word[i] - 'a';
-		if (prev->child[tmp] == NULL) {
-			return 0;
-		}
-		else {
-			prev = prev->child[tmp];
-		}
-	}
+    void insert(char *s, int v) {
+        int u = 0, n = strlen(s);
 
-	return prev->ncount;
-}
-void solve(int n)
-{
-	root = (struct trie *) malloc(sizeof(struct trie));
-	memset(root, 0, sizeof(struct trie));
+        for (int i = 0; i < n; i++) {
+            int c = s[i] - 'a' + 1;
+            if (!ch[u][c]) {
+                memset(ch[sz], 0, sizeof(ch[sz]));
+                value[sz] = 0;
+                ch[u][c] = sz++;
+            }
+            u = ch[u][c];
+        }
 
-	for (int i = 0; i < n; i++) {
-		scanf("%s", dict);
-		trie_build(dict, strlen(dict));
-	}
+        value[u] = v;
+    }
 
-	int m;
-	scanf("%d", &m);
+    bool search(char *s) {
+        int u = 0, n = strlen(s);
 
-	for (int i = 0; i < m; i++) {
-		scanf("%s", dict);
-		printf("%d\n", trie_search(dict, strlen(dict)));
-	}
-}
+        for (int i = 0; i < n; i++) {
+            int c = s[i] - 'a' + 1;
+            if (ch[u][c] != 0) {
+                u = ch[u][c];
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};

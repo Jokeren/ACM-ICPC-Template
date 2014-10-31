@@ -21,3 +21,16 @@ void inline root_union(int x, int y)
         }
     }
 }
+
+Find_Set(x)
+{
+	r = x;
+	while r != parent[r] do
+		r = parent[r]; // now r is the root node
+	while r != parent[x] do {
+		p = parent[x];
+		parent[x] = r;
+		x = p;
+	}
+	return r;
+}
