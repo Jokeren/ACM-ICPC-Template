@@ -1,6 +1,6 @@
 int element[N];
 
-ll tree[2 * N], delta[2 * N];
+ll tree[4 * N], delta[4 * N];
 
 void change(int a, int b, int x, int k, int l, int r)
 {
