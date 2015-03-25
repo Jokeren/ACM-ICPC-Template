@@ -15,6 +15,8 @@ void inline push_down(int l, int r, int k)
         delta_set[2 * k + 1] = delta_set[k];
         tree[2 * k + 1] = modify(l, (l + r) / 2,  delta_set[k], l, (l + r) / 2);
 
+		//区间点的时候改为modify((l + r) / 2, r, delta_set[k], (l + r) / 2, r);
+		//区间点的时候改为tree[2 * k + 2] = delta_set[k];
         if (l != r) {
             delta_set[2 * k + 2] = delta_set[k];
             tree[2 * k + 2] = modify((l + r) / 2 + 1, r, delta_set[k], (l + r) / 2 + 1, r);
@@ -28,6 +30,8 @@ void inline push_down(int l, int r, int k)
         delta_add[2 * k + 1] += delta_add[k];
         tree[2 * k + 1] += modify(l, (l + r) / 2,  delta_add[k], l, (l + r) / 2);
 
+		//区间点的时候改为modify((l + r) / 2, r, delta_add[k], (l + r) / 2, r);
+		//区间点的时候改为tree[2 * k + 2] += delta_add[k];
         if (l != r) {
             delta_add[2 * k + 2] += delta_add[k];
             tree[2 * k + 2] += modify((l + r) / 2 + 1, r, delta_add[k], (l + r) / 2 + 1, r);
@@ -39,6 +43,7 @@ void inline push_down(int l, int r, int k)
 
 void change_lazy(int a, int b, ll x, int k, int l, int r, bool update)
 {
+	//区间点的时候改为a>=r||b<=l
     if (a > r || b < l) {
         return ;
     } else if (a <= l && b >= r) {
@@ -48,9 +53,11 @@ void change_lazy(int a, int b, ll x, int k, int l, int r, bool update)
         if (update) {
             delta_add[k] = 0;
             delta_set[k] = x;
+			//区间点的时候改为tree[k] = x;
             tree[k] = modify(a, b, x, l, r);
         } else {
             delta_add[k] += x;
+			//区间点的时候改为tree[k] += x;
             tree[k] += modify(a, b, x, l, r);
         }
 	} else {
@@ -58,6 +65,7 @@ void change_lazy(int a, int b, ll x, int k, int l, int r, bool update)
         push_down(l, r, k);
 
 		change_lazy(a, b, x, 2 * k + 1, l, (l + r) / 2, update);
+		//区间的时候改为change_lazy(a, b, x, 2 * k + 2, (l + r) / 2, r, update);
 		if (l != r)
 			change_lazy(a, b, x, 2 * k + 2, (l + r) / 2 + 1, r, update);
 
@@ -67,6 +75,7 @@ void change_lazy(int a, int b, ll x, int k, int l, int r, bool update)
 
 ll query_lazy(int a, int b, int k, int l, int r)
 {
+	//区间点的时候改为a>=r||b<=l
     if (a > r || b < l) {
         return 0;
     } else if (a <= l && b >= r) {
@@ -77,6 +86,7 @@ ll query_lazy(int a, int b, int k, int l, int r)
 
 		int left = query_lazy(a, b, 2 * k + 1, l, (l + r) / 2);
 		int right = 0;
+        //区间的时候改为query_lazy(a, b, 2 * k + 2, (l + r) / 2, r);
 		if (l != r)
 			right = query_lazy(a, b, 2 * k + 2, (l + r) / 2 + 1, r);
 
