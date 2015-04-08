@@ -1,5 +1,5 @@
 /*
- * 适用于无向图求桥和割点，求桥只要找到pre[i] == lowv的次数
+ * 适用于无向图求桥和割点，求桥只要找到pre[i] == lowu[i]的次数
  */
 struct tarjan_t {
     std::vector<int> g[N];
