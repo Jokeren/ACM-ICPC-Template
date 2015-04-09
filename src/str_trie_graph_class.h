@@ -41,7 +41,7 @@ private:
 	int fail[N];
 	int num[N];
 	int cur_idx;
-	char str_main[LEN]; //LEN是主串长度
+	std::string str_main;
 	bool is_build;
 
 public:
@@ -65,9 +65,9 @@ public:
 		int i = 0, p = 0;//p表示层数
 		int len = strlen(s);
 
-		for (i = 0; i <= len - 1; i++)
+		for (i = 0; i < len; i++)
 		{
-			int c = s[i] - 'a' + 1;//字符改变时修改
+		    int c = s[i] - 'a' + 1;//字符改变时修改, 'a' > 'A'
 			if (!trie[p][c]){//多串构造，如果只有一个串，这个判断当然没有用
 				memset(trie[cur_idx], 0, sizeof(trie[cur_idx]));
 				num[cur_idx] = 0;
@@ -112,51 +112,32 @@ public:
 		}
 	}
 
-	bool find(int idx, int& total, int n) {
+	void find() {
 		int ans = 0, i = 0, p = 0;
 		if (!is_build) {
             is_build = true;
             build();//竟然忘记调用build了...
 		}
 
-		int len = strlen(str_main);
 		bool flag = false;
 
-        bool virus[501];
-        memset(virus, false, sizeof(virus));
-		for (i = 0; i <= len - 1; i++)
+		for (i = 0; i < str_main.length(); i++)
 		{
-			int c = str_main[i] + 1;//字符改变时修改
+			int c = str_main[i] - 'a' + 1;//字符改变时修改
 
 			while (p && !trie[p][c]) p = fail[p];
 
 			p = trie[p][c];
 
-			if (p && num[p] > 0) {
-                if (!flag) {
-                    flag = true;
-                    total++;
-                }
-                virus[num[p]] = true;
+			if (num[p] > 0) {
+				//do something
 			}
-
 		}
-
-        if (flag) {
-            printf("web %d:", idx);
-            for (int i = 1; i <= n; i++) {
-                if (virus[i]) {
-                    printf(" %d", i);
-                }
-            }
-            printf("\n");
-            return true;
-        }
-
-		return false;
+		
+		//do something
 	}
 
-	char* get_main() {
+	std::string& get_main() {//std::getline(std::cin, trie->get_main())
 		return str_main;
 	}
 };
